@@ -7,7 +7,7 @@ const markup = galleryItems
     ({ preview, original, description }) =>
       `<li class='gallery__item'>
      <a class='gallery__link' href='${original}'> 
-     <img src='${preview}' alt='${description}'/>
+     <img class = 'gallery__image' src='${preview}' alt='${description}'/>
      </a>
      </li>`
   )
@@ -15,12 +15,7 @@ const markup = galleryItems
 
 list.insertAdjacentHTML("afterbegin", markup);
 
-list.addEventListener("click", simpleLightboxFunc);
-
-function simpleLightboxFunc(event) {
-  event.preventDefault();
-  const instance = new SimpleLightbox(".gallery a", {
-    captionsData: "alt",
-    captionsDelay: 250,
-  });
-}
+new SimpleLightbox(".gallery a", {
+  captionsData: "alt",
+  captionsDelay: 250,
+});

@@ -7,7 +7,7 @@ const markup = galleryItems
     ({ preview, original, description }) =>
       `<li class='gallery__item'>
      <a class='gallery__link' href='${original}'> 
-     <img src='${preview}' data-source='${original}' alt='${description}'/>
+     <img class = 'gallery__image' src='${preview}' data-source='${original}' alt='${description}'/>
      </a>
      </li>`
   )
@@ -17,18 +17,22 @@ list.insertAdjacentHTML("afterbegin", markup);
 
 list.onclick = (event) => {
   event.preventDefault();
-  const instance = basicLightbox.create(
-    `<img width="1400" height="900" src='${event.target.dataset.source}'>`
-  );
-  instance.show();
+  console.log(event.target.nodeName);
+  if (event.target.nodeName !== "IMG"){
+    return;
+  }
+  const lightbox = basicLightbox.create(
+    `<img width="1400" height="900" src='${event.target.dataset.source}'>`, {
+      onShow: () => document.addEventListener("keydown", instanceClose),
+      onClose: () => document.removeEventListener("keydown", instanceClose),
+    });
 
-  document.addEventListener("keydown", instanceClose);
+  lightbox.show();
+
 
   function instanceClose(event) {
     if (event.code === "Escape") {
-      instance.close();
+      lightbox.close();
     }
-
-    return document.removeEventListener("keydown", instanceClose);
   }
 };
